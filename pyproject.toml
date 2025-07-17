@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dask-nanocourse"
+version = "0.1.0"
+description = "Environment for Dask distributed/HPC demos"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "numpy",
+  "pandas",
+  "dask[distributed]",
+  "jupyter",
+  "scikit-image",
+  "zarr",
+  "dask-labextension",
+]

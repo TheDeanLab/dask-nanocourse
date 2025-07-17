@@ -1,3 +1,32 @@
+# Pycharm project files
 .idea/dask-nanocourse.iml
 /.idea
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pytest cache
+.pytest_cache/
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# MacOS files
 .DS_Store

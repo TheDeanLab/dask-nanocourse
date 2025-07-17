@@ -24,3 +24,33 @@ By the end of this course, participants will be able to:
 - Learn what Dask is and how it enables parallel processing by dividing work into tasks.
 - Familiarize with Dask’s core concepts (task graphs, schedulers, lazy evaluation) and how it integrates with Python’s scientific stack.
 
+------
+
+## Installation of Dependencies
+### create a venv, install in editable mode
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -e .
+```
+
+## Add the kernel to your iPython environment and launch a Jupyter Notebook
+
+Install the IPython kernel inside the activated virtual environment, then register it with Jupyter:
+
+```bash
+python -m ipykernel install --user --name .venv --display-name "Dask Nanocourse"
+```
+
+## Install Jupyter Lab Extensions
+```bash
+conda install nodejs
+jupyter labextension install dask-labextension
+```
+
+## Launch Jupyter Lab
+```bash
+jupyter-lab
+```
+
