@@ -24,3 +24,8 @@ hide: false
 src: ./pages/1.md
 hide: false
 ---
+
+---
+src: ./pages/2.md
+hide: false
+---
