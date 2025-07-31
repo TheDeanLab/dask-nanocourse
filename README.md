@@ -27,21 +27,33 @@ By the end of this course, participants will be able to:
 ------
 
 ## Installation of Dependencies
-### create a venv, install in editable mode
+### Using venv
 ```bash
 python -m venv .venv
-source .venv/bin/activate
 pip install --upgrade pip
 pip install -e .
 ```
 
-## Add the kernel to your iPython environment and launch a Jupyter Notebook
+### Using Conda
+```bash
+conda create -n dask-nanocourse python=3.9.7
+conda activate dask-nanocourse
+pip install -e .
+```
 
+## Add the kernel to your iPython environment and launch a Jupyter Notebook
 Install the IPython kernel inside the activated virtual environment, then register it with Jupyter:
 
+## Using venv
 ```bash
 python -m ipykernel install --user --name .venv --display-name "Dask Nanocourse"
 ```
+
+## Using Conda
+```bash
+python -m ipykernel install --user --name dask-nanocourse --display-name "Dask Nanocourse"
+```
+
 
 ## Install Jupyter Lab Extensions
 ```bash

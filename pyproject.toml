@@ -16,4 +16,5 @@ dependencies = [
   "scikit-image",
   "zarr",
   "dask-labextension",
+  "dask-jobqueue",
 ]
