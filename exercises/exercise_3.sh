@@ -23,6 +23,6 @@ source activate dask-nanocourse
 
 # Launch the Python script using Dask with 5 workers
 srun -n 5 \
-   python /archive/bioinformatics/Danuser_lab/Dean/dean/git/dask-nanocourse/exercises/example_3.py \
+   python /archive/bioinformatics/Danuser_lab/Dean/dean/git/dask-nanocourse/exercises/exercise_3.py \
    --job-id "${SLURM_JOB_ID}"
 exit 0
