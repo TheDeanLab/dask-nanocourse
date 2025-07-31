@@ -36,9 +36,12 @@ pip install -e .
 
 ### Using Conda
 ```bash
-conda create -n dask-nanocourse python=3.9.7
-conda activate dask-nanocourse
-pip install -e .
+(base) conda create -n dask-nanocourse python=3.1.0
+(base) conda activate dask-nanocourse
+(dask-nanocourse) pip install --upgrade pip setuptools wheel
+(dask-nanocourse) conda install -c conda-forge pyzmq
+(dask-nanocourse) pip install -e . --no-cache-dir
+
 ```
 
 ## Add the kernel to your iPython environment and launch a Jupyter Notebook
