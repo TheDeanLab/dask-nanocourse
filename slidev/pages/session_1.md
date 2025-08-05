@@ -17,6 +17,33 @@ layout: cover
 
 </v-clicks>
 
+
+---
+
+## Python's Global Interpreter Lock
+
+Python’s Global Interpreter Lock (GIL) is a mutex that protects access to Python objects, preventing multiple threads from executing Python bytecodes simultaneously. This leaves significant performance potential untapped on multi-core machines. For example...
+
+```python
+from time import sleep
+
+data = [1, 2, 3, 4, 5, 6, 7, 8]
+
+def inc(x):
+    sleep(1)
+    return x + 1
+
+
+results = []
+for x in data:
+    y = inc(x)
+    results.append(y)
+
+total = sum(results)
+
+```
+
+
 ---
 layout: image-right
 image: pages/images/dask_array.png
@@ -36,31 +63,29 @@ backgroundSize: 60%
 
 **Task Graph & Scheduler**: Each Dask computation creates a directed acyclic graph (DAG) of tasks. When triggered, Dask’s _scheduler_ orchestrates executing these tasks on parallel hardware (threads, processes, or cluster workers) to produce the result. This separation of the task graph from execution allows Dask to scale transparently. 
 
-**Dask Execution Flow**: User Collections (e.g. Dask DataFrame) create a Task Graph of many small tasks, which a _Scheduler_ executes on available resources. This design lets users write high-level code while Dask handles parallel execution. (Dask offers both a single-machine scheduler and a distributed scheduler for clusters.)
+
+**What is a DAG?**: A DAG is a graph structure with directed edges and no cycles. In Dask, each node represents a task, and edges represent dependencies between tasks.
+
+- A task is a unit of work (e.g., a function call), and dependencies indicate which tasks must complete before others can start.
+- Tasks are automatically scheduled based upon their dependencies, allowing Dask to execute them in parallel where possible.
+
+**High-Level Abstraction**: User Collections (e.g. Dask Arrays, DataFrames, etc) lets users write high-level code while Dask handles parallel execution. 
 
 ---
-layout: image-left
+layout: image
 image: pages/images/map-reduce-task-scheduling.svg
-backgroundSize: 90%
+backgroundSize: 95%
 ---
 
-## What is a Directed Acyclic Graph (DAG)?
-
-A Directed Acyclic Graph (DAG) is a graph structure with directed edges and no cycles. In Dask, each node represents a task, and edges represent dependencies between tasks.
-
-A task is a unit of work (e.g., a function call), and dependencies indicate which tasks must complete before others can start.
-
-Tasks are automatically scheduled based upon their dependencies, allowing Dask to execute them in parallel where possible.
-
----
+--- 
 
 ## Parallelism on a Single Machine
 
 <v-clicks>
 
-- Multi-Threading: Dask’s default scheduler on a single machine uses a thread pool to execute tasks concurrently. This incurs very little overhead (tasks run in the same process), and works well when computations release the GIL (e.g. NumPy ufuncs, Pandas C code). Due to Python’s GIL, pure Python code cannot run on multiple threads at the same time, so multi-threading yields speedups mainly for numeric or I/O-bound workloads. 
+- **Multi-Threading:** Dask’s default scheduler on a single machine uses a thread pool to execute tasks concurrently. This incurs very little overhead (tasks run in the same process), and works well when computations release the GIL (e.g. NumPy, Pandas C code). Due to Python’s GIL, multi-threading yields speedups mainly for numeric or I/O-bound workloads.
 
-- Multi-Processing: For Python-heavy workloads, Dask can use multiple processes. The multiprocessing scheduler runs tasks in separate Python processes, bypassing the GIL to achieve true parallelism. This allows parallel execution even for code that doesn’t release the GIL (e.g. processing text or Python objects). The trade-off is overhead: transferring data between processes can be costly, especially if large data needs to be serialized. 
+- **Multi-Processing:** For Python-heavy workloads, Dask can use multiple processes. The multiprocessing scheduler runs tasks in separate Python processes, bypassing the GIL to achieve true parallelism. This allows parallel execution even for code that doesn’t release the GIL (e.g. processing text or Python objects). The trade-off is overhead: transferring data between processes can be costly, especially if large data needs to be serialized. 
 
 </v-clicks>
 
@@ -70,14 +95,18 @@ Tasks are automatically scheduled based upon their dependencies, allowing Dask t
 
 </v-clicks>
 
+<!-- 
+How do these processes release the GIL? Many libraries like NumPy, Pandas, etc., execute low-level operations in C/C++ which release the GIL during execution. This allows multiple threads to run concurrently on different CPU cores, significantly speeding up computations.
+--> 
+
 ---
 
 ## Dask's Scheduler System
 
 <v-clicks>
 
-- Advanced Local Scheduler: Dask’s distributed scheduler can run on a single machine or across a cluster. Even on one machine, many users prefer the distributed scheduler for its richer features: an asynchronous Future API, a live diagnostic dashboard, and smarter task scheduling that can outperform the simple multiprocessing approach. You can start a local distributed scheduler with a few lines of code and get insight into task execution in real time.
-- Scaling to Clusters: The distributed scheduler truly shines when scaling out to multiple machines. It can coordinate a cluster of worker processes spread across several nodes, handling communication and load balancing. Dask can integrate with HPC job schedulers (SLURM, PBS, LSF, etc.) to launch workers on a cluster. This means you can write your code using Dask’s API and then deploy it on an HPC cluster, harnessing hundreds of cores or more.
+- **Advanced Local Scheduler:** Dask’s distributed scheduler can run on a single machine or across a cluster. Even on one machine, many users prefer the distributed scheduler for its richer features: an asynchronous Future API, a live diagnostic dashboard, and smarter task scheduling that can outperform the simple multiprocessing approach. 
+- **Scaling to Clusters:** The distributed scheduler shines when scaling out to multiple machines. It can coordinate a cluster of worker processes spread across several nodes, handling communication and load balancing. Dask can integrate with HPC job schedulers (SLURM, PBS, LSF, etc.) to launch workers on a cluster. This means you can write your code using Dask’s API and then deploy it on an HPC cluster, harnessing hundreds of cores or more.
 </v-clicks>
 
 ---
@@ -92,6 +121,7 @@ Tasks are automatically scheduled based upon their dependencies, allowing Dask t
 
 ```python
 from dask.distributed import Client, LocalCluster
+
 # Local cluster with custom configuration
 cluster = LocalCluster(n_workers=4, threads_per_worker=2, memory_limit='2GB')
 client = Client(cluster)
@@ -105,11 +135,11 @@ Dask provides high-level collections that mimic familiar APIs, allowing you to s
 
 <v-clicks>
 
-- Dask Array: Parallel N-dimensional array (NumPy-like). Useful for large numerical data (e.g. large images, multi-dim arrays). 
-- Dask DataFrame: Parallel DataFrame (Pandas-like). For large tabular datasets (e.g. CSVs, data frames) split into many partitions. 
-- Dask Bag: Parallel collection for unstructured data (like a list of Python objects, text logs, JSON records). It’s a general-purpose container. 
-- Dask Delayed: A low-level way to build custom task graphs. You wrap arbitrary Python functions with dask.delayed to create tasks and dependencies manually.
-- Dask Futures: An asynchronous programming interface for real-time task execution and result retrieval, similar to concurrent.futures.
+- **Dask Array:** Parallel N-dimensional array (NumPy-like). Useful for large numerical data (e.g. large images, multi-dim arrays). 
+- **Dask DataFrame:** Parallel DataFrame (Pandas-like). For large tabular datasets (e.g. CSVs, data frames) split into many partitions. 
+- **Dask Bag:** Parallel collection for unstructured data (like a list of Python objects, text logs, JSON records). It’s a general-purpose container. 
+- **Dask Delayed:** A low-level way to build custom task graphs. You wrap arbitrary Python functions with dask.delayed to create tasks and dependencies manually.
+- **Dask Futures:** An asynchronous programming interface for real-time task execution and result retrieval, similar to Python's `concurrent.futures`.
 
 </v-clicks>
 
@@ -139,11 +169,6 @@ result = df.groupby('category')['value'].mean().compute()
 
 Both snippets above do the same group-by operation. The Dask version spreads the work across many partitions and CPUs, then uses .compute() to get the final result.
 
-<!--
-Presentation comments, should we want them.
--->
-
-
 ---
 
 ## Minimal Code Changes: NumPy vs Dask Array
@@ -164,7 +189,7 @@ result = da.mean(arr, axis=0).compute()  # compute mean across chunks
 
 Both snippets perform the same mean operation on a large array. The Dask version processes the data in chunks, allowing it to handle arrays larger than memory and utilize all CPU cores. 
 
-**_Exercise 0._**
+**_exercises/session_1/exercise_0.ipynb_**
 
 ---
 
@@ -209,13 +234,4 @@ print(result)
 
 The two `np.sum` operations run concurrently on separate workers, then the final addition combines the results. 
 
-**_Exercise 1._**
-
----
-layout: cover
-
----
-## Coffee Break
-### 10:00 - 10:15 AM
-
----
+**_exercises/session_1/exercise_1.ipynb_**
