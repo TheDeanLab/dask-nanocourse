@@ -109,6 +109,7 @@ Dask provides high-level collections that mimic familiar APIs, allowing you to s
 - Dask DataFrame: Parallel DataFrame (Pandas-like). For large tabular datasets (e.g. CSVs, data frames) split into many partitions. 
 - Dask Bag: Parallel collection for unstructured data (like a list of Python objects, text logs, JSON records). It’s a general-purpose container. 
 - Dask Delayed: A low-level way to build custom task graphs. You wrap arbitrary Python functions with dask.delayed to create tasks and dependencies manually.
+- Dask Futures: An asynchronous programming interface for real-time task execution and result retrieval, similar to concurrent.futures.
 
 </v-clicks>
 

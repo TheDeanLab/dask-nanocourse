@@ -156,6 +156,18 @@ bioformats2raw --resolutions 5 --tile_width 512 --tile_height 512 --chunk_depth 
 bioformats2raw --resolutions 4 --downsample-type AREA --tile_width 1024 --tile_height 1024 input.lsm pyramid.zarr
 ````
 
+--- 
+
+# Optimizing Chunk Sizes
+Critical for performance in Dask Arrays and Zarr storage
+
+**Matching Chunks to Analytical Operations**
+- **Feature Detection:** Chunks should be 3-5× larger than the largest feature you're detecting
+- **Convolution/Filtering:** Include padding equal to filter kernel size. Prevents edge effects
+- **2D Operations on 3D Data:** Use thin Z-chunks (1-3 planes) with larger XY dimensions
+- **Time Series Analysis:** Chunk along time dimension for operations across timepoints
+
+
 ---
 
 ## Loading Zarr as Dask Array

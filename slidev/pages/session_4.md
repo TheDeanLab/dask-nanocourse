@@ -2,9 +2,9 @@
 layout: cover
 ---
 
-## Dask Cluster Types and Deployment
+## Distributed Dask: Scaling to Clusters with SLURM
 
-### Session 3: 11:15 AM - 12:00 PM
+### Session 4: 2:30 – 3:15 PM
 
 ---
 

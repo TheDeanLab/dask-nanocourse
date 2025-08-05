@@ -21,14 +21,20 @@ hide: false
 ---
 
 ---
-src: ./pages/1.md
+src: ./pages/session_1.md
 hide: false
 ---
 
 ---
-src: ./pages/2.md
+src: ./pages/session_2.md
 hide: false
 ---
+
+---
+src: ./pages/lab_1.md
+hide: false
+---
+
 
 ---
 src: ./pages/_2.md
@@ -36,6 +42,6 @@ hide: false
 ---
 
 ---
-src: ./pages/3.md
+src: ./pages/session_4.md
 hide: false
 ---
