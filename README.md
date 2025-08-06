@@ -35,6 +35,8 @@ pip install -e .
 ```
 
 ### Using Conda on BioHPC
+Clone www.github.com/TheDeanLab/dask-nanocourse to your BioHPC home directory, then run the following commands:
+
 ```bash
 module load python/latest-3.12.x-anaconda
 (base) conda create -n dask-nanocourse python=3.10
