@@ -7,7 +7,7 @@ layout: cover
 
 ---
 
-## Lab 2: Processing Large Image Data with Dask
+## Lab 2: Analyzing Large Tabular Data with Dask
 
 - Use the first code block to generate some patient tumor growth data and save it locally as CSV. You can play with some of the parameters.
 
