@@ -41,7 +41,7 @@ layout: cover
 ## Alternatives to Dask Arrays
 **Xarray:** Built on top of NumPy and Dask, Xarray adds labeled dimensions and coordinates to arrays, making it ideal for multidimensional scientific data. Especially popular in atmospheric, oceanographic, and environmental sciences.
 
-**Zarr:** A storage format designed for chunked, compressed, and parallel data access. Often used alongside Dask and Xarray for storing and handling large datasets efficiently. Zarr enables efficient reading and writing of large-scale datasets, particularly beneficial in cloud and HPC environments.
+**N5/Zarr:** A storage format designed for chunked, compressed, and parallel data access. Often used alongside Dask and Xarray for storing and handling large datasets efficiently. Zarr enables efficient reading and writing of large-scale datasets, particularly beneficial in cloud and HPC environments.
 
 **HDF5:** A widely used file format for storing large amounts of numerical data. HDF5 supports chunking and compression, making it suitable for large datasets. It is often used in scientific computing and data analysis.
 
@@ -135,8 +135,8 @@ backgroundSize: 90%
 
 --- 
 
-# Optimizing Chunk Sizes
-Critical for performance in Dask Arrays and Zarr storage
+## Optimizing Chunk Sizes
+### Critical for performance in Dask Arrays and Zarr storage
 
 **Chunk Size Trade-offs**. 
 - **Too Small:** Task scheduling overhead (~1ms per task) dominates runtime
@@ -158,8 +158,8 @@ bioformats2raw --resolutions 4 --downsample-type AREA --tile_width 1024 --tile_h
 
 --- 
 
-# Optimizing Chunk Sizes
-Critical for performance in Dask Arrays and Zarr storage
+## Optimizing Chunk Sizes
+### Critical for performance in Dask Arrays and Zarr storage
 
 **Matching Chunks to Analytical Operations**
 - **Feature Detection:** Chunks should be 3-5× larger than the largest feature you're detecting
@@ -170,25 +170,23 @@ Critical for performance in Dask Arrays and Zarr storage
 
 ---
 
-## Loading Zarr as Dask Array
+## Lazy Loading of Large Image Data
+### Loading Zarr as Dask Array
 
 ```python
 import dask.array as da
 
-# Load Zarr file as Dask array
+# Load Zarr dataset as Dask array
 arr = da.from_zarr('data.zarr')
 
-# Or specify specific array within Zarr group, such as the resolution level.
-arr = da.from_zarr('data.zarr', component='0') 
+# Or specify specific array within Zarr group, such as the resolution level. 
+# e.g., arr = da.from_zarr('data.zarr', component='0') 
 
 # Inspecting Array Structure
 print(f"Shape: {arr.shape}")           # (10, 65, 1024, 1024)
 print(f"Chunks: {arr.chunks}")         # ((5, 5), (65,), (512, 512), (512, 512))
 print(f"Dtype: {arr.dtype}")           # uint16
 print(f"Size: {arr.nbytes / 1e9:.2f} GB")  # 10.22 GB
-
-# Visualize chunking structure
-arr.visualize() 
 
 # Rechunk for different access patterns
 spatial_chunks = arr.rechunk((1, 1, 512, 512))      # Spatial operations
@@ -198,14 +196,14 @@ balanced_chunks = arr.rechunk((2, 32, 256, 256))    # Balanced approach
 # Persist optimized chunks to storage
 balanced_chunks.to_zarr('optimized.zarr')
 ````
-_Exercise 2._
 
+**_exercises/session_2/exercise_2.ipynb_**
 
 ---
 
 ## Dask Array Operations
-
 ### map_blocks: Element-wise Operations
+
 **Apply Functions to Array Chunks Independently**
 - Process each chunk separately without communication between chunks
 - Ideal for pixel-wise operations (filtering, thresholding, normalization)
@@ -220,7 +218,6 @@ _Exercise 2._
 ---
 
 ## Dask Array Operations
-
 ### map_blocks: Element-wise Operations
 
 ```python

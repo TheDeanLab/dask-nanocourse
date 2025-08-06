@@ -7,16 +7,36 @@ layout: cover
 
 ---
 
-## Lab 1: Processing Large Image Data with Dask
+## Lab 1
+### Part 1 - Processing Large Image Data with Dask
 
 - Load an image series into dask as a Dask array. Evaluate its shape, dtype, and chunk sizes.
 - Perform reductions like max/mean projections across the image stack, and plot the results.
-- Apply a Gaussian filter to each image slice using map_blocks or map_overlap.
+- Apply a Gaussian filter to each image slice using map_blocks or map_overlap. Compare the resulting image data.
 - Rechunk the Dask array and evaluate the performance of the operation.
 - Save results to Zarr: Store the large filtered Dask array (or the computed projection if space is limited) in Zarr format.
 - Compare the results with a standard numpy/scikit-image workflow to see the performance difference.
 
-Note: Can be performed on your local machine or on BioHPC.
+**Note:** Can be performed on your local machine with a mapped network drive or on BioHPC.
+
+**Data:** 
+- `/archive/shared/MIL/2d.zarr` 
+- `/archive/shared/MIL/3d.zarr`
+
+---
+
+## Lab 1
+### Part 2 - Creating a Custom Dask Routine
+
+The Otsu thresholding algorithm is a common technique for image segmentation. 
+In this lab, you will implement a custom Dask routine to apply Otsu's method across a large image dataset. 
+The identified threshold should be the global threshold, and not applied on a per-chunk basis.
+
+**Note:** Can be performed on your local machine with a mapped network drive or on BioHPC.
+
+**Data:** 
+- `/archive/shared/MIL/2d.zarr` 
+- `/archive/shared/MIL/3d.zarr`
 
 ---
 

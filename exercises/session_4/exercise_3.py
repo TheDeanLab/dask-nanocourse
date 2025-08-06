@@ -31,10 +31,10 @@ logging.info(f"SLURM Job ID: {args.job_id}")
 schedule_path = os.path.join("/home2/kdean/portal_jobs/", f"scheduler_{args.job_id}.json")
 
 # Base path for saving the output Zarr file.
-base_path = "/archive/bioinformatics/Danuser_lab/Dean/dean/2024-05-21-tiling"
+base_path = "/archive/shared/MIL"
 
 # Location of the data.
-data_path = os.path.join(base_path, "cell5_fused_tp_0_ch_0.zarr")
+data_path = os.path.join(base_path, "3d.zarr")
 save_path = os.path.join(base_path, 'example_3.zarr')
 
 with SLURMRunner(scheduler_file=schedule_path) as runner:
