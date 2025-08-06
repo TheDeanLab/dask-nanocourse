@@ -34,8 +34,9 @@ pip install --upgrade pip
 pip install -e .
 ```
 
-### Using Conda
+### Using Conda on BioHPC
 ```bash
+module load python/latest-3.12.x-anaconda
 (base) conda create -n dask-nanocourse python=3.10
 (base) conda activate dask-nanocourse
 (dask-nanocourse) pip install --upgrade pip setuptools wheel
