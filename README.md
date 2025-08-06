@@ -39,6 +39,7 @@ Clone www.github.com/TheDeanLab/dask-nanocourse to your BioHPC home directory, t
 
 ```bash
 module load python/latest-3.12.x-anaconda
+(base) module load gcc/8.3.0
 (base) conda create -n dask-nanocourse python=3.10
 (base) conda activate dask-nanocourse
 (dask-nanocourse) pip install --upgrade pip setuptools wheel
