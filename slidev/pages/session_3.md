@@ -4,7 +4,7 @@ layout: cover
 ---
 
 ## Dask DataFrames for Large Tabular Data  
-### Session 3: 1:00 – 2:00 PM
+### Session 3: 1:00 – 1:30 PM
 
 ---
 

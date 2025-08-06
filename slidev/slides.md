@@ -37,7 +37,12 @@ hide: false
 
 
 ---
-src: ./pages/_2.md
+src: ./pages/session_3.md
+hide: false
+---
+
+---
+src: ./pages/lab_2.md
 hide: false
 ---
 
