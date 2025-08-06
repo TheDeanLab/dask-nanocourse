@@ -36,7 +36,7 @@ pip install -e .
 
 ### Using Conda
 ```bash
-(base) conda create -n dask-nanocourse python=3.1.0
+(base) conda create -n dask-nanocourse python=3.10
 (base) conda activate dask-nanocourse
 (dask-nanocourse) pip install --upgrade pip setuptools wheel
 (dask-nanocourse) conda install -c conda-forge pyzmq
